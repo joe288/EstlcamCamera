@@ -1,0 +1,4 @@
+pip install --upgrade Pillow
+pip install numpy
+pip install opencv-python
+pip install pyinstaller
