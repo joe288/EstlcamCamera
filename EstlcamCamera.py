@@ -35,7 +35,7 @@ class App:
         self.lb_rotate = Label(imageFrame, text="Rotate:")
         self.lb_rotate.pack(anchor=W)
         rotate_value = tkinter.StringVar(value=self.vid.imageRotate)
-        self.sb_rotate = tkinter.Spinbox(imageFrame, width=5, from_=0, to=360, textvariable = rotate_value ,command=self.setRotate)
+        self.sb_rotate = tkinter.Spinbox(imageFrame, width=5, from_=0, to=360, increment=0.1, textvariable = rotate_value ,command=self.setRotate)
         self.sb_rotate.pack(anchor=W) 
 
         self.lb_skale = Label(imageFrame, text="Skale:")
@@ -86,7 +86,7 @@ class App:
             self.vid.imageMirror = False
 
     def setRotate(self):
-        self.vid.imageRotate = int(self.sb_rotate.get())
+        self.vid.imageRotate = float(self.sb_rotate.get())
 
     def setSkale(self):
         self.vid.imageSkale = float(self.sb_skale.get())
