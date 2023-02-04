@@ -5,6 +5,9 @@ import cv2
 import PIL.Image, PIL.ImageTk
 import time
 import json
+import os
+
+systemFile = "settings.json"
 
 class App:
     def __init__(self, window, window_title, video_source=0):
@@ -136,42 +139,47 @@ class App:
         "crossDiagonal": self.cb_crossDiagonalState.get()
         }
  
-        with open("settings.json", "w") as outfile:
+        with open(systemFile, "w") as outfile:
             json.dump(dictionary, outfile)
 
     def load(self):
-        # JSON file
-        f = open ('settings.json', "r")
-        
-        # Reading from file
-        data = json.loads(f.read())
-        
         self.cb_imageMirrorState = IntVar()
-        self.cb_imageMirrorState.set(data["mirror"])
-        self.mirror()
-
-        self.rotate_value = tkinter.StringVar(value = data["rotate"])
-        self.setRotate()
-
-        self.skale_value = tkinter.StringVar(value = data["scale"])
-        self.setSkale()       
-        
-        self.circle_value = tkinter.StringVar(value = data["circleDia"])
-        self.setCircleDia()
-
         self.cb_circleState = IntVar()
-        self.cb_circleState.set(data["circle"])
-        self.vid.enabelCircle = self.cb_circleState.get()
-
-        self.cb_crossDiagonalState =IntVar()
-        self.cb_crossDiagonalState.set(data["crossDiagonal"])
-
         self.cb_crossState = IntVar()
-        self.cb_crossState.set(data["cross"])
-        self.vid.enabelCross = self.cb_crossState.get()
-        self.vid.diagonalCross = self.cb_crossDiagonalState.get()
-        # Closing file
-        f.close()
+        self.cb_crossDiagonalState =IntVar()
+        self.rotate_value = IntVar()
+        self.skale_value = IntVar()
+        self.circle_value = IntVar()
+
+        # JSON file
+        if os.path.isfile(systemFile): 
+            f = open (systemFile, "r")
+            
+            # Reading from file
+            data = json.loads(f.read())
+            
+            self.cb_imageMirrorState.set(data["mirror"])
+            self.mirror()
+
+            self.rotate_value = tkinter.StringVar(value = data["rotate"])
+            self.setRotate()
+
+            self.skale_value = tkinter.StringVar(value = data["scale"])
+            self.setSkale()       
+            
+            self.circle_value = tkinter.StringVar(value = data["circleDia"])
+            self.setCircleDia()
+
+            self.cb_circleState.set(data["circle"])
+            self.vid.enabelCircle = self.cb_circleState.get()
+
+            self.cb_crossDiagonalState.set(data["crossDiagonal"])
+
+            self.cb_crossState.set(data["cross"])
+            self.vid.enabelCross = self.cb_crossState.get()
+            self.vid.diagonalCross = self.cb_crossDiagonalState.get()
+            # Closing file
+            f.close()
 
     def update(self):
         # Get a frame from the video source
